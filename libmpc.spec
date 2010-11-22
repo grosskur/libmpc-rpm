@@ -1,13 +1,15 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
-Version: 0.8.1
-Release: 1%{?dist}
+Version: 0.8.3
+Release: 0.1.svn855%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://www.multiprecision.org/
-Source0: http://www.multiprecision.org/mpc/download/mpc-%{version}.tar.gz
+Source0: mpc-%{version}-dev.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires: gmp-devel mpfr-devel texinfo
+BuildRequires: gmp-devel >= 4.3.2
+BuildRequires: mpfr-devel >= 2.4.2
+BuildRequires: texinfo
 
 %description
 
@@ -25,9 +27,11 @@ Requires: mpfr-devel gmp-devel
 Header files and shared object symlinks for MPC is a C library.
 
 %prep
-%setup -q -n mpc-%{version}
+%setup -q -n mpc-%{version}-dev
 
 %build
+export CPPFLAGS="%{optflags} -std=gnu99"
+export CFLAGS="%{optflags} -std=gnu99"
 %configure
 make %{?_smp_mflags}
 
@@ -70,6 +74,16 @@ fi
 %{_infodir}/*.info*
 
 %changelog
+* Fri Nov 19 2010 Petr Machata <pmachata@redhat.com> - 0.8.3-0.1.svn855
+- Devel updates (to-be-0.8.3, SVN release 855)
+  - New functions mpc_set_dc, mpc_set_ldc, mpc_get_dc, mpc_get_ldc
+  - Speed-up mpc_pow_si and mpc_pow_z
+  - Bug fixes in trigonometric functions, exp, sqrt
+- Upstream 0.8.2
+  - Speed-up mpc_pow_ui
+- Adjust BuildRequires
+- Resolves: #653931
+
 * Wed Jan 20 2010 Petr Machata <pmachata@redhat.com> - 0.8.1-1
 - Upstream 0.8.1
   - acosh, asinh, atanh: swap of precisions between real and imaginary parts
