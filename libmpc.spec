@@ -32,6 +32,7 @@ Header files and shared object symlinks for MPC is a C library.
 %build
 export CPPFLAGS="%{optflags} -std=gnu99"
 export CFLAGS="%{optflags} -std=gnu99"
+export EGREP=egrep
 %configure
 make %{?_smp_mflags}
 
