@@ -1,7 +1,7 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
 Version: 0.8.3
-Release: 0.1.svn855%{?dist}
+Release: 0.2.svn855%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://www.multiprecision.org/
@@ -75,6 +75,9 @@ fi
 %{_infodir}/*.info*
 
 %changelog
+* Tue Nov 30 2010 Petr Machata <pmachata@redhat.com> - 0.8.3-0.2.svn855
+- Bump for rebuild against the new mpfr
+
 * Fri Nov 19 2010 Petr Machata <pmachata@redhat.com> - 0.8.3-0.1.svn855
 - Devel updates (to-be-0.8.3, SVN release 855)
   - New functions mpc_set_dc, mpc_set_ldc, mpc_get_dc, mpc_get_ldc
