@@ -1,11 +1,11 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
-Version: 0.8.3
-Release: 0.3.svn855%{?dist}
+Version: 0.9
+Release: 1%{?dist}
 License: LGPLv2+
 Group: Development/Tools
 URL: http://www.multiprecision.org/
-Source0: mpc-%{version}-dev.tar.gz
+Source0: mpc-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires: gmp-devel >= 4.3.2
 BuildRequires: mpfr-devel >= 2.4.2
@@ -27,7 +27,7 @@ Requires: mpfr-devel gmp-devel
 Header files and shared object symlinks for MPC is a C library.
 
 %prep
-%setup -q -n mpc-%{version}-dev
+%setup -q -n mpc-%{version}
 
 %build
 export CPPFLAGS="%{optflags} -std=gnu99"
@@ -75,6 +75,9 @@ fi
 %{_infodir}/*.info*
 
 %changelog
+* Wed Jun 22 2011  <pmachata@redhat.com> - 0.9-1
+- Upstream 0.9
+
 * Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.8.3-0.3.svn855
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 

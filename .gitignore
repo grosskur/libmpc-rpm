@@ -3,3 +3,4 @@ mpc-0.8.1.tar.gz
 .build-*
 mpc-*/
 /mpc-0.8.3-dev.tar.gz
+/mpc-0.9.tar.gz
