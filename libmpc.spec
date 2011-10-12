@@ -1,7 +1,7 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
 Version: 0.9
-Release: 1%{?dist}
+Release: 1%{?dist}.1
 License: LGPLv2+
 Group: Development/Tools
 URL: http://www.multiprecision.org/
@@ -75,6 +75,9 @@ fi
 %{_infodir}/*.info*
 
 %changelog
+* Wed Oct 12 2011 Peter Schiffer <pschiffe@redhat.com> - 0.9-1.1
+- rebuild with new gmp
+
 * Wed Jun 22 2011  <pmachata@redhat.com> - 0.9-1
 - Upstream 0.9
 
