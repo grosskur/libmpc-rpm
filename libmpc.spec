@@ -1,7 +1,7 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
 Version: 1.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: LGPLv3+, GFDLv1.3+
 Group: Development/Tools
 URL: http://www.multiprecision.org/
@@ -20,7 +20,7 @@ built upon and follows the same principles as Mpfr.
 %package devel
 Summary: Header and shared development libraries for MPC
 Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 Requires: mpfr-devel gmp-devel
 
 %description devel
@@ -33,7 +33,7 @@ Header files and shared object symlinks for MPC is a C library.
 export CPPFLAGS="%{optflags} -std=gnu99"
 export CFLAGS="%{optflags} -std=gnu99"
 export EGREP=egrep
-%configure
+%configure --disable-static
 make %{?_smp_mflags}
 
 %check
@@ -42,7 +42,7 @@ make check
 %install
 rm -rf $RPM_BUILD_ROOT
 make install DESTDIR=$RPM_BUILD_ROOT
-rm -f $RPM_BUILD_ROOT/%{_libdir}/libmpc.{l,}a
+rm -f $RPM_BUILD_ROOT/%{_libdir}/libmpc.la
 rm -f ${RPM_BUILD_ROOT}/%{_infodir}/dir
 
 %clean
@@ -66,7 +66,7 @@ fi
 %files
 %defattr(-,root,root,-)
 %doc README NEWS COPYING.LESSER
-%{_libdir}/libmpc.so.*
+%{_libdir}/libmpc.so.3*
 
 %files devel
 %defattr(-,root,root,-)
@@ -75,6 +75,11 @@ fi
 %{_infodir}/*.info*
 
 %changelog
+* Thu Aug 02 2012 Rex Dieter <rdieter@fedoraproject.org> - 1.0-2
+- %%files: track lib soname (so bumps aren't a surprise)
+- tighten subpkg deps (%%_isa)
+- %%build: --disable-static
+
 * Thu Aug  2 2012 Petr Machata <pmachata@redhat.com> - 1.0-1
 - Upstream 1.0
 
