@@ -1,7 +1,7 @@
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
 Version: 1.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: LGPLv3+, GFDLv1.3+
 Group: Development/Tools
 URL: http://www.multiprecision.org/
@@ -75,6 +75,9 @@ fi
 %{_infodir}/*.info*
 
 %changelog
+* Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
+
 * Thu Aug 02 2012 Rex Dieter <rdieter@fedoraproject.org> - 1.0-2
 - %%files: track lib soname (so bumps aren't a surprise)
 - tighten subpkg deps (%%_isa)
