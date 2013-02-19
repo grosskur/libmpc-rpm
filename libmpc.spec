@@ -1,15 +1,24 @@
+
+# build compat-libmpc for bootstrapping purposes
+%define bootstrap 1
+
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
-Version: 1.0
-Release: 3%{?dist}
-License: LGPLv3+, GFDLv1.3+
+Version: 1.0.1
+Release: 1%{?dist}
+License: LGPLv3+ and GFDL
 Group: Development/Tools
 URL: http://www.multiprecision.org/
-Source0: mpc-%{version}.tar.gz
+Source0: http://www.multiprecision.org/mpc/download/mpc-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 BuildRequires: gmp-devel >= 4.3.2
 BuildRequires: mpfr-devel >= 2.4.2
 BuildRequires: texinfo
+
+%if 0%{?bootstrap}
+Source1: http://www.multiprecision.org/mpc/download/mpc-0.9.tar.gz
+%endif
 
 %description
 
@@ -26,13 +35,27 @@ Requires: mpfr-devel gmp-devel
 %description devel
 Header files and shared object symlinks for MPC is a C library.
 
+%package -n compat-libmpc
+Summary: compat/bootstrap mpc-0.9 library
+%description -n compat-libmpc
+%{summary}.
+
+
 %prep
-%setup -q -n mpc-%{version}
+%setup -q -n mpc-%{version} %{?bootstrap:-a 1}
 
 %build
 export CPPFLAGS="%{optflags} -std=gnu99"
 export CFLAGS="%{optflags} -std=gnu99"
 export EGREP=egrep
+
+%if 0%{?bootstrap}
+pushd mpc-0.9/
+%configure --disable-static
+make %{?_smp_mflags}
+popd
+%endif
+
 %configure --disable-static
 make %{?_smp_mflags}
 
@@ -41,6 +64,16 @@ make check
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+%if 0%{?bootstrap}
+make install DESTDIR=$RPM_BUILD_ROOT -C mpc-0.9/
+
+## remove everything but shlib
+rm -fv $RPM_BUILD_ROOT%{_libdir}/libmpc.so
+rm -fv $RPM_BUILD_ROOT%{_includedir}/*
+rm -fv $RPM_BUILD_ROOT%{_infodir}/*
+%endif
+
 make install DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT/%{_libdir}/libmpc.la
 rm -f ${RPM_BUILD_ROOT}/%{_infodir}/dir
@@ -74,7 +107,20 @@ fi
 %{_includedir}/mpc.h
 %{_infodir}/*.info*
 
+%post -n compat-libmpc -p /sbin/ldconfig
+%postun -n compat-libmpc -p /sbin/ldconfig
+
+%files -n compat-libmpc
+%{_libdir}/libmpc.so.2*
+
+
 %changelog
+* Tue Feb 19 2013 Rex Dieter <rdieter@fedoraproject.org> - 1.0.1-1
+- compat-libmpc (for bootsrapping purposes)
+- mpc-1.0.1
+- update Source URLs
+- fix License: tag
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
