@@ -4,13 +4,12 @@
 
 Summary: C library for multiple precision complex arithmetic
 Name: libmpc
-Version: 1.0.1
-Release: 2%{?dist}
+Version: 1.0.2
+Release: 1%{?dist}
 License: LGPLv3+ and GFDL
 Group: Development/Tools
 URL: http://www.multiprecision.org/
 Source0: http://www.multiprecision.org/mpc/download/mpc-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires: gmp-devel >= 4.3.2
 BuildRequires: mpfr-devel >= 2.4.2
@@ -63,8 +62,6 @@ make %{?_smp_mflags}
 make check
 
 %install
-rm -rf $RPM_BUILD_ROOT
-
 %if 0%{?bootstrap}
 make install DESTDIR=$RPM_BUILD_ROOT -C mpc-0.9/
 
@@ -77,9 +74,6 @@ rm -fv $RPM_BUILD_ROOT%{_infodir}/*
 make install DESTDIR=$RPM_BUILD_ROOT
 rm -f $RPM_BUILD_ROOT/%{_libdir}/libmpc.la
 rm -f ${RPM_BUILD_ROOT}/%{_infodir}/dir
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -97,12 +91,10 @@ if [ $1 = 0 ]; then
 fi
 
 %files
-%defattr(-,root,root,-)
 %doc README NEWS COPYING.LESSER
 %{_libdir}/libmpc.so.3*
 
 %files devel
-%defattr(-,root,root,-)
 %{_libdir}/libmpc.so
 %{_includedir}/mpc.h
 %{_infodir}/*.info*
@@ -115,6 +107,9 @@ fi
 
 
 %changelog
+* Mon Feb 24 2014 Peter Robinson <pbrobinson@fedoraproject.org> 1.0.2-1
+- mpc-1.0.2
+
 * Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.0.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
 
