@@ -10,9 +10,13 @@ License: LGPLv3+ and GFDL
 Group: Development/Tools
 URL: http://www.multiprecision.org/
 Source0: http://www.multiprecision.org/mpc/download/mpc-%{version}.tar.gz
-
+%if 0%{?rhel} && 0%{?rhel} < 7
+BuildRequires: gmp60-devel >= 6.0.0
+BuildRequires: mpfr31-devel >= 3.1.2
+%else
 BuildRequires: gmp-devel >= 4.3.2
 BuildRequires: mpfr-devel >= 2.4.2
+%endif
 BuildRequires: texinfo
 
 %if 0%{?bootstrap}
